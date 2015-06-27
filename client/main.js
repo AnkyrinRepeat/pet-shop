@@ -3,7 +3,13 @@ require('../ext')
 var m = require('mithril')
 
 var PetShopWindow = require('./components/PetShopWindow')
-// var PetSignUp = require('./components/PetShopWindow')
+var SignInPanel = require('./components/SignInPanel')
 
-m.mount(document.getElementById('app'), PetShopWindow)
-// m.mount(document.getElementById('app'), PetSignUp)
+m.mount(document.getElementById('app'), {
+  view:function(){
+  return m('.app', [
+    m.component(SignInPanel),
+    m.component(PetShopWindow)
+    ])
+  }
+})
