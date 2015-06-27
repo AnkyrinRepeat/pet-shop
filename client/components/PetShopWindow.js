@@ -5,7 +5,7 @@ var PetShopWindow = module.exports = {};
 
 PetShopWindow.controller = function () {
   var ctrl = this;
-  ctrl.Pleb = m.prop(true);
+  ctrl.signedIn = m.prop(false);
   ctrl.shop = m.prop(null);
   ctrl.pets = m.prop(null);
   ctrl.username = m.prop('');
@@ -22,7 +22,8 @@ PetShopWindow.controller = function () {
 
   ctrl.signin = function(e) {
     e.preventDefault();
-    Shop.signIn({username:ctrl.username(), password:ctrl.password()}).then(ctrl.Pleb(false), ctrl.Pleb(true));
+    // debugger;
+    Shop.signIn({username:ctrl.username(), password:ctrl.password()}).then(function(){ctrl.signedIn(true);}, function(){ctrl.signedIn(false);});
   }
 
   // ctrl.pets is our collection of pet models
@@ -46,7 +47,7 @@ PetShopWindow.controller = function () {
 PetShopWindow.view = function (ctrl) {
   return m('.pet-shop', [
     m('h1', "Welcome to " + ctrl.shop().name),
-      !(ctrl.Pleb()) ?
+      ctrl.signedIn() ?
         ctrl.pets().map(function(pet){
           return m('.pets', [
            m('div', "Pet name: " + pet.name),
